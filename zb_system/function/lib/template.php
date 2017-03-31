@@ -345,9 +345,9 @@ class Template
     /**
      * @param $content
      */
-    protected function parse_option(&$content)
+    protected function parse_option(&$content) //加入常量判断
     {
-        $content = preg_replace('#\{\#([^\}]+)\#\}#', '<?php echo $option[\'\\1\']; ?>', $content);
+        $content = preg_replace('#\{\#([^\}]+)\#\}#', '<?php if(defined(trim(\'\\1\'))){echo \\1;}else{echo $option[\'\\1\'];} ?>', $content);
     }
 
     /**
