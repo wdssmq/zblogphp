@@ -363,6 +363,12 @@ RunTime();
 
 function misc_ping()
 {
+    //set_time_limit(3);
     global $zbp;
-    echo $zbp->lang['msg']['blog_host'] . ': ' . GetVars('newdomain', 'GET');
+    $data = array();
+    if (VerifyWebToken(GetVars('token', 'GET'),"")){
+        header('Access-Control-Allow-Origin:*');
+        $data["token"] = GetVars('token', 'GET');
+    }
+    JsonReturn($data);
 }
