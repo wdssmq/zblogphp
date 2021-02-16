@@ -264,7 +264,6 @@ class Template
 
     protected function addNonexistendTags()
     {
-        global $zbp;
         $templates = &$this->templates;
 
         if (strpos($templates['comments'], 'AjaxCommentBegin') === false) {
@@ -275,13 +274,12 @@ class Template
             $templates['comments'] = $templates['comments'] . '<label id="AjaxCommentEnd"></label>';
         }
 
-        if (strpos($templates['comment'], 'id="cmt{$comment.ID}"') === false && strpos($templates['comment'], 'id=\'cmt{$comment.ID}\'') === false) {
+        if (strpos($templates['comment'], 'id="cmt{$comment.ID}"') === false) {
             $templates['comment'] = '<label id="cmt{$comment.ID}"></label>' . $templates['comment'];
         }
 
-        if (strpos($templates['commentpost'], 'inpVerify') === false && strpos($templates['commentpost'], '=\'verify\'') === false && strpos($templates['commentpost'], '="verify"') === false) {
+        if (strpos($templates['commentpost'], 'inpVerify') === false && strpos($templates['commentpost'], '="verify"') === false) {
             $verify = '{template:commentpost-verify}';
-
             if (strpos($templates['commentpost'], '<!--verify-->') !== false) {
                 $templates['commentpost'] = str_replace('<!--verify-->', $verify, $templates['commentpost']);
             } elseif (strpos($templates['commentpost'], '</form>')) {
@@ -291,6 +289,7 @@ class Template
             }
         }
 
+        // 以下建议废弃，明确由主题自行添加
         if (strpos($templates['header'], '{$header}') === false) {
             if (strpos($templates['header'], '</head>') !== false) {
                 $templates['header'] = str_replace('</head>', '{$header}' . '</head>', $templates['header']);
@@ -299,6 +298,7 @@ class Template
             }
         }
 
+        // 以下建议废弃，明确由主题自行添加
         if (strpos($templates['footer'], '{$footer}') === false) {
             if (strpos($templates['footer'], '</body>') !== false) {
                 $templates['footer'] = str_replace('</body>', '{$footer}' . '</body>', $templates['footer']);
@@ -564,7 +564,7 @@ class Template
 
         return "{php} for($exp) {{/php} $code{php} }  {/php}";
     }
-    
+
     /**
      * @param $content
      */
@@ -578,7 +578,7 @@ class Template
             );
         }
     }
-    
+
     /**
      * @param $matches
      *
@@ -587,13 +587,13 @@ class Template
     protected function parse_switch_sub($matches)
     {
         $exp = $this->replace_dot($matches[1]);
-        
+
         $code = $this->parse_switch_case($matches[2]);
         $code = preg_replace('/^(\s+?){php}/', '${1}', $code);
-        
+
         return "{php} switch($exp) { $code{php} }  {/php}";
     }
-    
+
     /**
      * @param $code
      *
@@ -603,7 +603,7 @@ class Template
     {
         $code = preg_replace('/{break;?}/', '{php}break;{/php}', $code);
         $code = preg_replace('/{default:?}/', '{php}default:{/php}', $code);
-        
+
         $code = preg_replace_callback('/{case(.+?)}/', array($this, 'parse_switch_case_repalce'), $code);
         return $code;
     }
