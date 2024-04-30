@@ -12,7 +12,8 @@ if (!defined('ZBP_PATH')) {
 }
 
 // test
-function test(){
+function test()
+{
     echo '20240430194851';
 }
 
