@@ -47,7 +47,7 @@ jobs:
           echo "Running PHPCS on the following files:"
           echo "${ALL_CHANGED_FILES}"
           ./vendor/bin/phpcs ${ALL_CHANGED_FILES}
-        continue-on-error: true
+        # continue-on-error: true
       - name: Comment on PHPCS Errors
         if: failure()
         continue-on-error: true
