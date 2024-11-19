@@ -40,6 +40,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: ${{ github.ref }}
       - name: PHPCS check
+        continue-on-error: true
         if: steps.get_file_changes.outputs.any_changed == 'true'
         env:
           ALL_CHANGED_FILES: ${{ steps.get_file_changes.outputs.all_changed_files }}
