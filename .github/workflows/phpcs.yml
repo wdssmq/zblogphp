@@ -1,7 +1,7 @@
 name: Run PHPCS
 on:
   push:
-    branches: [master]
+    branches: [master, test/phpcs-2024-04]
   pull_request:
     branches: [master]
 
